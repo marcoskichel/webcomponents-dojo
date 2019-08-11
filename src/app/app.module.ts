@@ -1,16 +1,25 @@
+import { DoBootstrap, Injector, NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { DialogComponent } from './dialog/dialog.component';
 
-import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    DialogComponent
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [DialogComponent],
 })
-export class AppModule { }
+export class AppModule implements DoBootstrap {
+
+  constructor(private injector: Injector) {}
+
+  ngDoBootstrap(): void {
+    const el = createCustomElement(DialogComponent, {injector: this.injector});
+    customElements.define('carlitos-dialog', el);
+  }
+
+}
